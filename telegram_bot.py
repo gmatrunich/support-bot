@@ -15,9 +15,6 @@ DF_SESSION_ID = os.environ['DF_SESSION_ID']
 LANGUAGE_CODE = 'ru'
 
 
-# export https_proxy=socks5://213.136.89.190:64506
-
-
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
