@@ -12,13 +12,13 @@
 Python3 должен быть уже установлен. Затем используйте `pip` (или `pip3`, есть конфликт с Python2) для установки зависимостей.
 `pip install -r requirements.txt`
 
-Параметры `TELEGRAM_BOT_TOKEN`, `DF_PROJECT_ID`, `DF_PROJECT_NUMBER`, `VK_BOT_TOKEN` и `TELEGRAM_CHAT_ID` должны находится в файле `.env` рядом со скриптом.
+Параметры `TELEGRAM_BOT_TOKEN`, `DF_PROJECT_ID`, `DF_PROJECT_NUMBER`, `GOOGLE_APPLICATION_CREDENTIALS`, `VK_BOT_TOKEN` и `TELEGRAM_CHAT_ID` должны находится в файле `.env` рядом со скриптом.
 
 Чтобы получить `TELEGRAM_BOT_TOKEN`, пройдите процесс регистрации нового чат-бота в Telegram: @BotFather
 
 Чтобы получить свой `TELEGRAM_CHAT_ID`, напишите в Telegram специальному боту: @userinfobot
 
-Узнать `DF_PROJECT_ID` и `DF_PROJECT_NUMBER` можно в настройках своего аккаунта DialogFlow.
+Узнать `DF_PROJECT_ID` и `DF_PROJECT_NUMBER` и получить `GOOGLE_APPLICATION_CREDENTIALS` можно в настройках своего аккаунта DialogFlow.
 
 Для обучения бота у агента DialogFlow должны быть права доступа Администратор Dialogflow API. (В Google Cloud Platform раздел "IAM и администрирование".)
 
