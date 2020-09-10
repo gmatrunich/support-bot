@@ -24,10 +24,6 @@ class TelegramLogsHandler(logging.Handler):
 
 
 def detect_intent_text(text):
-    from google.cloud import storage
-
-    storage_client = storage.Client.from_service_account_json(
-        GOOGLE_APPLICATION_CREDENTIALS)
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(DF_PROJECT_ID, DF_SESSION_ID)
     text_input = dialogflow.types.TextInput(
