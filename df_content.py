@@ -1,21 +1,24 @@
+
 import os
 import json
+import requests
 import dialogflow_v2 as dialogflow
+import logging
 from dotenv import load_dotenv
 
 
 load_dotenv()
 DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
-DF_PROJECT_NUMBER = os.environ['DF_PROJECT_NUMBER']
-GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-DF_SESSION_ID = os.environ['DF_SESSION_ID']
 LANGUAGE_CODE = 'ru'
 JSON_FILE = "questions.json"
 
 
+logger = logging.getLogger('telegram_logger')
+
+
 def read_the_json_file(json_file):
     with open(json_file, "r", encoding="utf-8") as file:
-        questions = json.load(file)
+        themes = json.load(file)
     return themes
 
 
@@ -57,16 +60,21 @@ def create_intent(project_id, display_name, training_phrases_parts,
     response = client.train_agent(parent)
 
 
-def main():
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.WARNING)
+    logger = logging.getLogger('Teach Logger')
+
     themes = read_the_json_file(JSON_FILE)
     for theme in themes.items():
         display_name, training_phrases_parts, message_texts = read_theme_info(
             theme
             )
-        create_intent(
-            DF_PROJECT_ID, display_name, training_phrases_parts, message_texts
-            )
-
-
-if __name__ == '__main__':
-    main()
+        try:
+            create_intent(
+                DF_PROJECT_ID,
+                display_name,
+                training_phrases_parts,
+                message_texts
+                )
+        except requests.exceptions.HTTPError as err:
+            logger.warning(f'Something has gone wrong!\n{err}')
