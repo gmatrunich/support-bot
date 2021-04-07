@@ -1,4 +1,5 @@
-from base import TelegramLogsHandler, detect_intent_text
+from tg_logger import TelegramLogsHandler
+from df_api import detect_intent_text
 import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
