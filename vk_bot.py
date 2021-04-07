@@ -1,4 +1,5 @@
-from base import *
+from tg_logger import TelegramLogsHandler
+from df_api import detect_intent_text
 import random
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -30,11 +31,8 @@ if __name__ == "__main__":
             has_answer, bot_answer = detect_intent_text(event.text)
             if has_answer is None:
                 continue
-            try:
-                vk_api.messages.send(
-                    user_id=event.user_id,
-                    message=bot_answer,
-                    random_id=random.randint(1, 1000)
-                )
-            except requests.exceptions.HTTPError as err:
-                logger.warning(f'Something has gone wrong!\n{err}')
+            vk_api.messages.send(
+                user_id=event.user_id,
+                message=bot_answer,
+                random_id=random.randint(1, 1000)
+            )
