@@ -5,10 +5,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
 import logging
 import os
-from dotenv import load_dotenv
 
 
-load_dotenv()
 TELEGRAM_CHAT_ID = os.environ['TELEGRAM_CHAT_ID']
 TELEGRAM_BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 
