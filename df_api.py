@@ -6,14 +6,14 @@ import dialogflow_v2 as dialogflow
 import logging
 from dotenv import load_dotenv
 
-'''
+
 load_dotenv()
 GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
 DF_SESSION_ID = os.environ['DF_SESSION_ID']
 LANGUAGE_CODE = 'ru'
 JSON_FILE = "questions.json"
-'''
+
 
 logger = logging.getLogger('telegram_logger')
 
@@ -81,13 +81,6 @@ def detect_intent_text(text):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger('Teach Logger')
-
-    load_dotenv()
-    GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-    DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
-    DF_SESSION_ID = os.environ['DF_SESSION_ID']
-    LANGUAGE_CODE = 'ru'
-    JSON_FILE = "questions.json"
 
     themes = read_file(JSON_FILE)
     for theme in themes.keys():
