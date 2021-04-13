@@ -1,3 +1,4 @@
+
 import os
 import json
 import requests
@@ -5,25 +6,25 @@ import dialogflow_v2 as dialogflow
 import logging
 from dotenv import load_dotenv
 
-
+'''
 load_dotenv()
 GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
 DF_SESSION_ID = os.environ['DF_SESSION_ID']
 LANGUAGE_CODE = 'ru'
 JSON_FILE = "questions.json"
-
+'''
 
 logger = logging.getLogger('telegram_logger')
 
 
-def read_the_json_file(json_file):
+def read_file(json_file):
     with open(json_file, "r", encoding="utf-8") as file:
         themes = json.load(file)
     return themes
 
 
-def read_theme_info(theme):
+def get_theme_data(theme):
     display_name = theme
     training_phrases_parts = themes[theme]['questions']
     message_texts = themes[theme]['answer']
@@ -81,9 +82,16 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger('Teach Logger')
 
-    themes = read_the_json_file(JSON_FILE)
+    load_dotenv()
+    GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+    DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
+    DF_SESSION_ID = os.environ['DF_SESSION_ID']
+    LANGUAGE_CODE = 'ru'
+    JSON_FILE = "questions.json"
+
+    themes = read_file(JSON_FILE)
     for theme in themes.keys():
-        display_name, training_phrases_parts, message_texts = read_theme_info(
+        display_name, training_phrases_parts, message_texts = get_theme_data(
             theme
             )
         create_intent(
