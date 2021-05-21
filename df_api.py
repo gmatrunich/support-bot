@@ -7,14 +7,6 @@ import logging
 from dotenv import load_dotenv
 
 
-load_dotenv()
-GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
-DF_SESSION_ID = os.environ['DF_SESSION_ID']
-LANGUAGE_CODE = 'ru'
-JSON_FILE = "questions.json"
-
-
 logger = logging.getLogger('telegram_logger')
 
 
@@ -24,10 +16,10 @@ def read_file(json_file):
     return themes
 
 
-def get_theme_data(theme):
-    display_name = theme
-    training_phrases_parts = themes[theme]['questions']
-    message_texts = themes[theme]['answer']
+def get_topic_data(topic):
+    display_name = topic
+    training_phrases_parts = topics[topic]['questions']
+    message_texts = topics[topic]['answer']
     return display_name, training_phrases_parts, message_texts
 
 
@@ -79,13 +71,20 @@ def detect_intent_text(text):
 
 
 if __name__ == '__main__':
+    load_dotenv()
+    GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+    DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
+    DF_SESSION_ID = os.environ['DF_SESSION_ID']
+    LANGUAGE_CODE = 'ru'
+    JSON_FILE = "questions.json"
+
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger('Teach Logger')
 
-    themes = read_file(JSON_FILE)
-    for theme in themes.keys():
-        display_name, training_phrases_parts, message_texts = get_theme_data(
-            theme
+    topics = read_file(JSON_FILE)
+    for topic in topics.keys():
+        display_name, training_phrases_parts, message_texts = get_topic_data(
+            topic
             )
         create_intent(
             DF_PROJECT_ID,
