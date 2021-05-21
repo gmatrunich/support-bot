@@ -18,7 +18,7 @@ def start(bot, update):
     update.message.reply_text('Hi!')
 
 
-def echo(bot, update):
+def send_answer(bot, update):
     has_answer, bot_answer = detect_intent_text(update.message.text)
     update.message.reply_text(bot_answer)
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     updater = Updater(token=TELEGRAM_BOT_TOKEN)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(MessageHandler(Filters.text, send_answer))
     dp.add_error_handler(error)
 
     try:
