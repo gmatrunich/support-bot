@@ -1,14 +1,10 @@
-from tg_logger import TelegramLogsHandler
-from df_api import detect_intent_text
+import tg_logger
+import df_api
 import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
 import logging
 import os
-
-
-TELEGRAM_CHAT_ID = os.environ['TELEGRAM_CHAT_ID']
-TELEGRAM_BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 
 
 logger = logging.getLogger('telegram_logger')
@@ -19,7 +15,7 @@ def start(bot, update):
 
 
 def send_answer(bot, update):
-    has_answer, bot_answer = detect_intent_text(update.message.text)
+    has_answer, bot_answer = df_api.detect_intent_text(update.message.text)
     update.message.reply_text(bot_answer)
 
 
@@ -28,11 +24,14 @@ def error(bot, update, error):
 
 
 if __name__ == '__main__':
-    telegram_bot = telegram.Bot(token=TELEGRAM_BOT_TOKEN)
+    telegram_bot = telegram.Bot(token=os.environ['TELEGRAM_BOT_TOKEN'])
     logger.setLevel(logging.WARNING)
-    logger.addHandler(TelegramLogsHandler(telegram_bot, TELEGRAM_CHAT_ID))
+    logger.addHandler(tg_logger.TGLogsHandler(
+        telegram_bot,
+        os.environ['TELEGRAM_CHAT_ID'])
+    )
 
-    updater = Updater(token=TELEGRAM_BOT_TOKEN)
+    updater = Updater(token=os.environ['TELEGRAM_BOT_TOKEN'])
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(MessageHandler(Filters.text, send_answer))
