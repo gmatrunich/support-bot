@@ -1,4 +1,3 @@
-
 import os
 import json
 import requests
@@ -7,13 +6,17 @@ import logging
 from dotenv import load_dotenv
 
 
+LANGUAGE_CODE = 'ru'
+JSON_FILE = "questions.json"
+
+
 logger = logging.getLogger('telegram_logger')
 
 
 def read_file(json_file):
     with open(json_file, "r", encoding="utf-8") as file:
-        themes = json.load(file)
-    return themes
+        topics = json.load(file)
+    return topics
 
 
 def get_topic_data(topic):
@@ -56,7 +59,10 @@ def create_intent(project_id, display_name, training_phrases_parts,
 
 def detect_intent_text(text):
     session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(DF_PROJECT_ID, DF_SESSION_ID)
+    session = session_client.session_path(
+        os.environ['DF_PROJECT_ID'],
+        os.environ['DF_SESSION_ID']
+    )
     text_input = dialogflow.types.TextInput(
         text=text, language_code=LANGUAGE_CODE)
     query_input = dialogflow.types.QueryInput(text=text_input)
@@ -72,11 +78,6 @@ def detect_intent_text(text):
 
 if __name__ == '__main__':
     load_dotenv()
-    GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-    DF_PROJECT_ID = os.environ['DF_PROJECT_ID']
-    DF_SESSION_ID = os.environ['DF_SESSION_ID']
-    LANGUAGE_CODE = 'ru'
-    JSON_FILE = "questions.json"
 
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger('Teach Logger')
@@ -87,7 +88,7 @@ if __name__ == '__main__':
             topic
             )
         create_intent(
-            DF_PROJECT_ID,
+            os.environ['DF_PROJECT_ID'],
             display_name,
             training_phrases_parts,
             message_texts
